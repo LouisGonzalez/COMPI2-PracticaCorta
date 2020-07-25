@@ -1,0 +1,40 @@
+package Gramatica;
+import java_cup.runtime.Symbol;
+import practicaoctaldecimal.PracticaOctalDecimal;
+import javax.swing.JTextField;
+
+parser code {:
+
+    public double contador = 0;
+    public JTextField txtDecimal;
+    public boolean todoCorrecto = true;
+
+    public Sintax(AnalizadorLexico lex, JTextField txtDecimal){
+        super(lex);
+        this.txtDecimal = txtDecimal;
+    }
+
+    public void setAccion(String tipo, String mensaje, String accion){
+        System.out.println(tipo+" "+mensaje);
+    }
+
+    public void syntax_error(Symbol s){
+        setAccion("ERROR", "Error sintaxis columna: "+s.right+" fila: "+s.left,"");
+    }
+
+:}
+
+    terminal NUMERO;
+
+    non terminal Double e;
+    
+    non terminal a;
+
+    start with a;
+
+    a ::= e:a {: if(parser.todoCorrecto){ parser.txtDecimal.setText(a.toString()); } :}
+;
+    e ::= NUMERO:a e:b {: double elevacion = Math.pow(8, parser.contador);  double valor = Double.parseDouble(a.toString()) * elevacion;  parser.contador++; RESULT = valor + b;  :}
+    | NUMERO:a {: double elevacion = Math.pow(8, parser.contador); double valor = Double.parseDouble(a.toString()) * elevacion;   parser.contador++; RESULT = valor;  :}
+    | error {: parser.todoCorrecto = false; :}
+;
