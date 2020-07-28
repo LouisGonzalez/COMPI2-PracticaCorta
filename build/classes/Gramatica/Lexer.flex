@@ -31,5 +31,5 @@ Numero = [01234567]
 <YYINITIAL>{
         
     {Numero}                                                                    {return symbol(sym.NUMERO, new Integer(yytext()));}
-    .                                                                           {System.out.println("ERROR LEXICO");}
+    .                                                                           {return symbol(sym.ERRO);}
 }

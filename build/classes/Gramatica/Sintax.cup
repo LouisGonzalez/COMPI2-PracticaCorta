@@ -24,7 +24,7 @@ parser code {:
 
 :}
 
-    terminal NUMERO;
+    terminal NUMERO, ERRO;
 
     non terminal Double e;
     
